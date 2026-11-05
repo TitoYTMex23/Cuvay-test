@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="accent">#F59E0B</color>
+    <color name="bg">#0B1020</color>
+    <color name="bgPanel">#132247</color>
+    <color name="text">#EDF2FF</color>
+    <string name="app_name">Cuvay</string>
+    <string name="enter_password">Enter password to unlock</string>
+    <string name="password_hint">Password</string>
+    <string name="reload_webview">Reload</string>
+    <string name="start_service">Start</string>
+    <string name="stop_service">Stop</string>
+    <string name="unlock">Unlock</string>
+    <string name="webview_loading">Loading local web UI...</string>
+    <style name="Theme.Cuvay" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bgPanel</item>
+        <item name="colorPrimaryVariant">@color/bgPanel</item>
+        <item name="colorOnPrimary">@color/text</item>
+        <item name="android:statusBarColor" ns1:targetApi="l">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+</resources>

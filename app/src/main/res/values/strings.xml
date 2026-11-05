@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Cuvay</string>
+    <string name="webview_loading">Loading local web UI...</string>
+    <string name="start_service">Start</string>
+    <string name="stop_service">Stop</string>
+    <string name="reload_webview">Reload</string>
+    <string name="enter_password">Enter password to unlock</string>
+    <string name="password_hint">Password</string>
+    <string name="unlock">Unlock</string>
+</resources>

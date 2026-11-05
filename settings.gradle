@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        // Local flatDir for the gomobile-generated AAR. The file is
+        // produced by `make android-bind` (gomobile bind -target=android
+        // -o android/app/libs/mobile.aar ./mobile).
+        flatDir {
+            dirs "$rootDir/app/libs"
+        }
+    }
+}
+
+rootProject.name = "cuvay-android"
+include ':app'
