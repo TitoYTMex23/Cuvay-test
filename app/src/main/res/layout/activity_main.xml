@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@color/text"
+            android:visibility="gone"
+            android:text="@string/webview_loading" />
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- Password lock screen overlay -->
+    <LinearLayout
+        android:id="@+id/lockOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="48dp"
+        android:background="@color/bg"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/lockTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/lockSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp" />
+
+        <EditText
+            android:id="@+id/lockPasswordInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
+            android:background="@color/bgPanel"
+            android:textColor="@color/text"
+            android:textColorHint="#66EDF2FF"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/lockError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E74C3C"
+            android:textSize="13sp"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/lockUnlockBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/accent"
+            android:textColor="@color/bg"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+    </LinearLayout>
+</FrameLayout>

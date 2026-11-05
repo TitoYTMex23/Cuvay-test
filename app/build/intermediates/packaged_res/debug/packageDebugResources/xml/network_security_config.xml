@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- HTTP permitido solo hacia el servidor local (Go) y tu VPS (chat) -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">172.235.128.53</domain>
+    </domain-config>
+    <!-- Bloquear HTTP en cualquier otro lado -->
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

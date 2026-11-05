@@ -1,0 +1,113 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+def hasGoMobileAar = file("libs/mobile.aar").exists()
+
+android {
+    namespace 'com.cuvay.android'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.cuvay.android"
+        minSdk 26
+        targetSdk 35
+        versionCode 2
+        versionName "1.1.0-2gb"
+        buildConfigField "boolean", "IS_PLAY_BUILD", "false"
+        buildConfigField "boolean", "IS_UNIVERSAL", "false"
+        buildConfigField "int", "TG_API_ID", (project.findProperty("TG_API_ID") ?: "0").toString()
+        buildConfigField "String", "TG_API_HASH", "\"${project.findProperty('TG_API_HASH') ?: ''}\""
+    }
+    buildFeatures {
+        buildConfig true
+        compose true
+    }
+    // Un APK por arquitectura en vez de uno gigante
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a'
+            universalApk false
+        }
+    }
+
+    sourceSets {
+        main {
+            if (!hasGoMobileAar) {
+                // Uses MobileStub.kt when libs/mobile.aar hasn't been generated yet,
+                // so Android Studio can sync, index, and compile immediately out of the box.
+                java.srcDirs += ['src/stub/java']
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            def ksFile = System.getenv("KEYSTORE_FILE")
+            if (ksFile) {
+                storeFile file(ksFile)
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (System.getenv("KEYSTORE_FILE")) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+
+dependencies {
+    if (hasGoMobileAar) {
+        implementation(name: 'mobile', ext: 'aar')
+    }
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.webkit:webkit:1.11.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.work:work-runtime-ktx:2.9.1'
+    implementation 'io.github.tdlib-android:core:0.1.1'
+
+    // Jetpack Compose (UI nueva)
+    implementation platform('androidx.compose:compose-bom:2024.09.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose:1.9.2'
+}
+
+tasks.register('syncWebAssets', Copy) {
+    description = 'Copies internal/web/static into app/src/main/assets/static for standalone Android Studio builds'
+    from('../../internal/web/static')
+    into('src/main/assets/static')
+}
+
+tasks.register('buildGoMobileAar', Exec) {
+    description = 'Compiles the Go core into app/libs/mobile.aar using gomobile bind'
+    workingDir rootProject.projectDir.parentFile
+    commandLine 'gomobile', 'bind',
+            '-target=android/arm,android/arm64',
+            '-androidapi', '24',
+            '-ldflags=-s -w -checklinkname=0',
+            '-o', 'android/app/libs/mobile.aar',
+            './mobile'
+}
